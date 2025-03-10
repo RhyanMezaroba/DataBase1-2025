@@ -1,0 +1,28 @@
+IDE = Integrated Development Environment
+ASP = Active Server Pages
+RAZOR / BLAZOR
+ORM = Object Relational Mapping
+
+Aplicação Web
+Opera em uma arquitetura Client(o dispositivo, celular, PC...) / Server(host do site)
+
+MVC(arquitetura de desenvolvimento de software) = Model Viewe Controler
+Controler - Executa os comandos
+Viewe - Interface de usuário
+Model - Os dados do programa
+
+DNS = Domain Name System
+HTTP / HTTPS = Hyper Text Transfer Protocol (Secure)
+HTML = Hyper Text Markup Language
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MYSQL / ORACLE / POSTGRE / SQLSERVER / MARIADB / MONGODB = operam no SGBD - Sistema Gerenciador de Banco de Dados
+SQL = Structured Query Language
+
+DBA = Data Base Administrator
+DDL = Data Definition Language
+DML = Data Manupulation Language
+DQL = Data Query Language
+
+(1,'PENELOPE','GUINESS','2006-02-15 04:34:33'), = Dados assim, formam uma *TUPLA*

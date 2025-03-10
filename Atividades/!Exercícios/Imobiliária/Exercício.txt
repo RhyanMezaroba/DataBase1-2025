@@ -1,0 +1,11 @@
+Com base no exemplo desenvolvido no LAB para o banco de dados Plants, crie:
+Uma estrutura lógica de BD, para uma imobiliária para armazenar os registros de seus imóveis.
+
+Para isso Crie uma tabela IMÓVEL com as seguintes conlunas:
+- ID do tipo inteiro
+- NOME do tipo string
+- NÚMERO DE QUARTOS do tipo inteiro
+- VALOR DE VENDA do tipo real ou float
+
+Insira ao menos 10 registros de dados para esta entidade!
+Aplique ao menos 3 tipos diferentes de consulta para exibição dos dados!
