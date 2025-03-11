@@ -1,9 +1,6 @@
 COMANDOS GIT
 ---
 
-Inicializa o repositório do Git
-git init
-
 Criação de novas branchs e troca de branch
 git checkout -b(branch) (nome da branch)
 
@@ -22,14 +19,14 @@ git commit -m (passar parâmetro de mensagem) "Meu primeiro commit"
 Verificar repositórios remotos configurados no repo local
 git remote -v (parâmetro de viwe)
 
-Adiciona um repositório remoto
-git remote add origin *(caminho URL)*
-
 Enviar commits pendentes para o repo(repository) remoto
 git push *origin main* (* muda conforme a necessidade)
 
 Clonar Repositório Remoto na máquina local:
 git clone https://github.com/RhyanMezaroba/Estrutura-de-Dados-24.git
+
+Adicionar um repositório no Github
+git remote add origin * (*url do Github)
 
 
 COMANDOS .NET
