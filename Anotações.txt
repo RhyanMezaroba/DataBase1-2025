@@ -1,2 +1,7 @@
 É um tipo de char variável, onde não vai consumir a quantidade de 50 caracteres
 varchar(50)
+
+Quando temos uma CARDINALIDADE
+1 - 1
+1 - N
+N - N = Anomalia (dados duplicados)

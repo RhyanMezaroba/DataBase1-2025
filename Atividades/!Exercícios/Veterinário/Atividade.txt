@@ -1,0 +1,5 @@
+Com base no exemplo executado em laboratório, para o Banco de Dados UNOESC BANK, com relacionamento de cardinalidade 1=>N.
+Monte um scrip de BD para o seguinte probelma:
+
+Uma empresa veterinária deseja criar um simples banco de dados, para armazenar os registros dos TIPOS_ANIMAIS que atende, podendo ser CANINOS, FELINOS, SUÍNOS, CAPRINOS, EQUINOS, ETC... Onde cada tipo animal poderá ter vários ANIMAIS. Para cada animal você deve armazenar (ID, NOME, ID_TIPO_ANIMAL, DATA_NASCIMENTO, COR, PESO, ALTURA). 
+Além disso, o BD deve armazenar um histórico de vacinação, onde ANIMAL pode ter 'N' VACINAS. Para a tabela vacina, armazene (ID, NOME, DATA_APLICACAO, ID_ANIMAL [FK])
