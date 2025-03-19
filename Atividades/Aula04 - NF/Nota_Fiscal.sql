@@ -56,6 +56,18 @@ insert into `ITEM_NOTA_FISCAL` (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL
 
 select * from PRODUTO where COD_PRODUTO = 3;
 
+-- Update, atualizando dados de colunas em tabelas
 update PRODUTO
-set VL_PRODUTO = 15
+set VL_PRODUTO = 15, DESC_PRODUTO = 'ProdutoAtualizado', UN_MED = 'CX'
 where COD_PRODUTO =3;
+
+-- Delete, excluindo registros de tabelas
+delete from PRODUTO
+where COD_PRODUTO = 3;
+-- Neste caso, uma exceção será lançada
+-- Violação da contraint que amarra o produto ao item da nota fiscal, não é possível excluir uma PKs que tem dependência em FKs
+
+insert into PRODUTO (DESC_PRODUTO, UN_MED, VL_PRODUTO) values
+('Teste delete', 'LT', 5.50);
+
+delete from PRODUTO where COD_PRODUTO = 4;
