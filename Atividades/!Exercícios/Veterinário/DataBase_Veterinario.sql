@@ -24,7 +24,8 @@ create table VACINAS (
     NOME varchar(30) not null,
     ID_ANIMAL int not null, -- Referência à tabela ANIMAIS
     DATA_APLICACAO datetime not null,
-    foreign key (ID_ANIMAL) references ANIMAIS(ID) -- Chave estrangeira para o animal
+    foreign key (ID_ANIMAL)
+    references ANIMAIS(ID) -- Chave estrangeira para o animal
 );
 
 INSERT INTO TIPO_ANIMAL (Nome) VALUES 
