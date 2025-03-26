@@ -19,29 +19,32 @@ create table `PRODUTO` (
 );
 
 create table `ITEM_NOTA_FISCAL` (
-	`NRO_NOTA` int not null,
+    `NRO_NOTA` int not null,
     `COD_PRODUTO` int not null,
     `QTD_PRODUTO` int not null,
     `VL_PRECO` float not null,
     `VL_TOTAL` float not null,
     primary key (NRO_NOTA, COD_PRODUTO),
     constraint FK_NRO_NOTA_NOTA_FISCAL
-		foreign key (NRO_NOTA)
+        foreign key (NRO_NOTA)
         references NOTA_FISCAL (NRO_NOTA),
-	constraint FK_COD_PRODUTO_PRODUTO
-		foreign key (COD_PRODUTO)
+    constraint FK_COD_PRODUTO_PRODUTO
+        foreign key (COD_PRODUTO)
         references PRODUTO (COD_PRODUTO)
+        on delete cascade
 );
+
 
 insert into `NOTA_FISCAL` (NM_CLIENTE, END_CLIENTE, NM_VENDEDOR, VL_TOTAL) values
 ('Aragorn', 'Terra Média', 'Bilbo', 100.00),
 ('Gandalf', 'Terra Média', 'Frodo', 100.00),
 ('Boromir', 'Mordor', 'Sam', 100.00);
 
-insert into `PRODUTO` (COD_PRODUTO, DESC_PRODUTO, UN_MED, VL_PRODUTO) values
-(1, 'Produto1', 'UN' , 90.00),
-(2, 'Produto2', 'UN' , 40.00),
-(3, 'Produto3', 'UN' , 10.00);
+insert into `PRODUTO` (DESC_PRODUTO, UN_MED, VL_PRODUTO) values
+('Produto1', 'UN' , 90.00),
+('Produto2', 'UN' , 40.00),
+('Produto3', 'UN' , 10.00),
+('Produto4', 'UN', 5.50);
 
 insert into `ITEM_NOTA_FISCAL` (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL_TOTAL) values
 (1, 1, 1, 90.00, 90.00),
@@ -52,7 +55,8 @@ insert into `ITEM_NOTA_FISCAL` (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL
 (2, 3, 2, 10.00, 20.00),
 (3, 1, 1, 90.00, 90.00),
 (3, 2, 2, 40.00, 80.00),
-(3, 3, 2, 10.00, 20.00);
+(3, 3, 2, 10.00, 20.00),
+(3, 4, 2, 5.50, 11.00);
 
 select * from PRODUTO where COD_PRODUTO = 3;
 
@@ -68,6 +72,9 @@ where COD_PRODUTO = 3;
 -- Violação da contraint que amarra o produto ao item da nota fiscal, não é possível excluir uma PKs que tem dependência em FKs
 
 insert into PRODUTO (DESC_PRODUTO, UN_MED, VL_PRODUTO) values
-('Teste delete', 'LT', 5.50);
+('Produto4', 'UN', 5.50);
+
+insert into ITEM_NOTA_FISCAL (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL_TOTAL) values
+(3, 4, 2, 5.50, 11.00);
 
 delete from PRODUTO where COD_PRODUTO = 4;

@@ -1,0 +1,9 @@
+Com base no banco de dados de VETERINÁRIA, elabore consultas SQL para responder as seguintes questões:
+
+A) Qual a quantidade de animais registradas no sistema?
+
+B) Qual o total de vacinas aplicadas registradas no sistema?
+
+C) Quantos animais temos registrados para cada categoria? (COUNT agrupado pro cada categoria)
+
+D) Qual a categoria de animais que teve mais vacinas recebidas?
