@@ -47,7 +47,9 @@ CREATE TABLE MINICURSO (
 -- Armazenamento de tema que fará relação com artigo e comissão
 CREATE TABLE TEMA(
 	ID_TEMA INT PRIMARY KEY,
-    NOME_TEMA VARCHAR(50)
+    NOME_TEMA VARCHAR(50),
+    ID_SIMPOSIO INT, 
+    FOREIGN KEY (ID_SIMPOSIO) REFERENCES SIMPOSIO (ID_SIMPOSIO)
 );
 
 -- Criação de tabela artigo
@@ -77,6 +79,7 @@ CREATE TABLE COMISSAO_CIENTIFICA (
 -- Criação de tabela parecer
 -- Armazenamento de descrição do parecer referente ao artigo
 -- Armazenamento da data que foi feito o parecer
+-- Relação ede chave estrangeira para referenciar as tabelas ARTIGO e COMISSAO_CIENTIFICA
 CREATE TABLE PARECER (
     ID_PARECER INT PRIMARY KEY,
     DESCRICAO TEXT,
@@ -87,15 +90,19 @@ CREATE TABLE PARECER (
     FOREIGN KEY (ID_COMISSAO) REFERENCES COMISSAO_CIENTIFICA(ID_COMISSAO)
 );
 
+-- Criação de tabela INSCRICAO
+-- Armazenamento de uma ID como chave primária
+-- Armazenamento da data que foi feito a inscrição
+-- Relação de chave estrangeira para referenciar as tabelas PESSOA e SIMPOSIO
 CREATE TABLE INSCRICAO (
     ID_INSCRICAO INT PRIMARY KEY,
     DATA_INSCRICAO DATE,
     ID_PESSOA INT,
-    ID_SIMPOSIO INT,
-    FOREIGN KEY (ID_PESSOA) REFERENCES PESSOA(ID_PESSOA),
-    FOREIGN KEY (ID_SIMPOSIO) REFERENCES SIMPOSIO(ID_SIMPOSIO)
+    FOREIGN KEY (ID_PESSOA) REFERENCES PESSOA(ID_PESSOA)
 );
 
+-- Criação de tabela INSCRICAO_MINICURSO
+-- Relação de chave estrangeira para referenciar as tabelas INSCRICAO e MINICURSO
 CREATE TABLE INSCRICAO_MINICURSO (
     ID_INSCRICAO INT,
 	ID_MINICURSO INT,
@@ -104,6 +111,8 @@ CREATE TABLE INSCRICAO_MINICURSO (
     FOREIGN KEY (ID_MINICURSO) REFERENCES MINICURSO(ID_MINICURSO)
 );
 
+-- Criação de tabela ARTIGO_AUTOR
+-- Relação de chave estrangeira para referenciar as tabelas ARTIGO e PESSOA
 CREATE TABLE ARTIGO_AUTOR (
     ID_ARTIGO INT,
     ID_PESSOA INT,
@@ -112,6 +121,8 @@ CREATE TABLE ARTIGO_AUTOR (
     FOREIGN KEY (ID_PESSOA) REFERENCES PESSOA(ID_PESSOA)
 );
 
+-- Criação de tabela COMISSAO_PESSOA
+-- Relação de chave estrangeira para referenciar as tabelas COMISSAO_CIENTIFICA e PESSOA
 CREATE TABLE COMISSAO_PESSOA (
     ID_COMISSAO INT,
     ID_PESSOA INT,
@@ -134,10 +145,10 @@ INSERT INTO PESSOA (ID_PESSOA, NOME, EMAIL, IDADE) VALUES
 (4, 'Ana Pereira', 'ana.pereira@email.com', 27),
 (5, 'Ricardo Santos', 'ricardo.santos@email.com', 34),
 (6, 'Fernanda Lima', 'fernanda.lima@email.com', 22),
-(7, 'Thigo Thomasi', 'thiagao@gmail.com', 19),
-(8, 'Thiago Balbinot', 'thiaguinho@gmail.com', 19),
-(9, 'Mateus Ferreira', 'mateus.ferreira@gmail.com', 20),
-(10, 'Rhyan', 'rhyan@gmail.com', 19),
+(7, 'Thigo Thomasi', 'rolisso@gmail.com', 19),
+(8, 'Thiago Balbinot', 'magrão@gmail.com', 19),
+(9, 'Mateus Ferreira', 'megamente@gmail.com', 20),
+(10, 'Rhyan', 'aqui.nabranch@gmail.com', 19),
 (11, 'Mauricio da Silva', 'mauricio.silva@gmail.com', 32),
 (12, 'Fernanda Silva', 'fernanda.silva@email.com', 20),
 (13, 'João Pedro', 'joao.pedro@email.com', 19),
@@ -153,12 +164,12 @@ INSERT INTO MINICURSO (ID_MINICURSO, TITULO, DESCRICAO, DATA_INICIO, DATA_FIM, I
 (3, 'Realidade Virtual', 'Desenvolvimento de aplicações VR', '2025-03-31', '2025-04-06', 3, 1);
 
 -- Inserindo dados na tabela TEMA
-INSERT INTO TEMA (ID_TEMA, NOME_TEMA) VALUES
-(1, 'BANCO DE DADOS'),
-(2, 'REDES'),
-(3, 'REALIDADE VIRTUAL'),
-(4, 'LINUX'),
-(5, 'SERVIDORES');
+INSERT INTO TEMA (ID_TEMA, NOME_TEMA, ID_SIMPOSIO) VALUES
+(1, 'BANCO DE DADOS', 1),
+(2, 'REDES', 1),
+(3, 'REALIDADE VIRTUAL', 1),
+(4, 'LINUX', 1),
+(5, 'SERVIDORES', 1);
 
 -- Inserindo dados na tabela ARTIGO
 INSERT INTO ARTIGO (ID_ARTIGO, TITULO, RESUMO, ID_TEMA, ID_SIMPOSIO) VALUES
@@ -186,13 +197,13 @@ INSERT INTO PARECER (ID_PARECER, DESCRICAO, DATA, ID_ARTIGO, ID_COMISSAO) VALUES
 
 
 -- Inserindo dados na tabela INSCRICAO
-INSERT INTO INSCRICAO (ID_INSCRICAO, DATA_INSCRICAO, ID_PESSOA, ID_SIMPOSIO) VALUES
-(1, '2025-03-30', 4, 1),
-(2, '2025-03-30', 5, 1),
-(3, '2025-03-30', 6, 1),
-(4, '2025-03-30', 1, 1),
-(5, '2025-03-30', 2, 1),
-(6, '2025-03-30', 3, 1);
+INSERT INTO INSCRICAO (ID_INSCRICAO, DATA_INSCRICAO, ID_PESSOA) VALUES
+(1, '2025-03-30', 4),
+(2, '2025-03-30', 5),
+(3, '2025-03-30', 6),
+(4, '2025-03-30', 1),
+(5, '2025-03-30', 2),
+(6, '2025-03-30', 3);
 
 -- Inserindo dados na tabela INSCRICAO_MINICURSO
 INSERT INTO INSCRICAO_MINICURSO (ID_INSCRICAO, ID_MINICURSO) VALUES
