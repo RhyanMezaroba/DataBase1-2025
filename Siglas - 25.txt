@@ -18,8 +18,8 @@ HTML = Hyper Text Markup Language
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 MYSQL / ORACLE / POSTGRE / SQLSERVER / MARIADB / MONGODB = operam no SGBD - Sistema Gerenciador de Banco de Dados
-SQL = Structured Query Language
 
+SQL = Structured Query Language
 DBA = Data Base Administrator
 DDL = Data Definition Language
 DML = Data Manupulation Language
