@@ -1,7 +1,7 @@
 use NOTA_FISCAL_NORMALIZADA;
 
 -- Forma clássica de consultas combinadas
-select NOTA_FISCAL.*, ITEM_NOTA_FISCAL.*
+select NOTA_FISCAL.*, ITEM_NOTA_FISCAL.* -- .* Seleciona todas as colunas dentro dessas tabelas
 from NOTA_FISCAL, ITEM_NOTA_FISCAL
 where NOTA_FISCAL.NRO_NOTA = ITEM_NOTA_FISCAL.NRO_NOTA;
 
