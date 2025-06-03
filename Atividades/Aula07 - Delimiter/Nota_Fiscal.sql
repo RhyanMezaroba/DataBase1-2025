@@ -1,0 +1,80 @@
+create database NOTA_FISCAL_NORMALIZADA;
+
+use `NOTA_FISCAL_NORMALIZADA`;
+
+create table `NOTA_FISCAL`(
+	`NRO_NOTA` int not null auto_increment primary key,
+    `NM_CLIENTE` varchar(256) not null,
+    `END_CLIENTE` varchar (256) not null,
+    `NM_VENDEDOR` varchar (256) not null,
+    `DT_EMISSAO` datetime default current_timestamp,
+    `VL_TOTAL` float not null
+);
+    
+create table `PRODUTO` (
+	`COD_PRODUTO` int not null auto_increment primary key,
+    `DESC_PRODUTO` varchar (256) not null,
+    `UN_MED` char(2) not null,
+    `VL_PRODUTO` float not null
+);
+
+create table `ITEM_NOTA_FISCAL` (
+    `NRO_NOTA` int not null,
+    `COD_PRODUTO` int not null,
+    `QTD_PRODUTO` int not null,
+    `VL_PRECO` float not null,
+    `VL_TOTAL` float not null,
+    primary key (NRO_NOTA, COD_PRODUTO),
+    constraint FK_NRO_NOTA_NOTA_FISCAL
+        foreign key (NRO_NOTA)
+        references NOTA_FISCAL (NRO_NOTA),
+    constraint FK_COD_PRODUTO_PRODUTO
+        foreign key (COD_PRODUTO)
+        references PRODUTO (COD_PRODUTO)
+        on delete cascade
+);
+
+
+insert into `NOTA_FISCAL` (NM_CLIENTE, END_CLIENTE, NM_VENDEDOR, VL_TOTAL) values
+('Aragorn', 'Terra Média', 'Bilbo', 100.00),
+('Gandalf', 'Terra Média', 'Frodo', 100.00),
+('Boromir', 'Mordor', 'Sam', 100.00);
+
+insert into `PRODUTO` (DESC_PRODUTO, UN_MED, VL_PRODUTO) values
+('Produto1', 'UN' , 90.00),
+('Produto2', 'UN' , 40.00),
+('Produto3', 'UN' , 10.00),
+('Produto4', 'UN', 5.50);
+
+insert into `ITEM_NOTA_FISCAL` (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL_TOTAL) values
+(1, 1, 1, 90.00, 90.00),
+(1, 2, 2, 40.00, 80.00),
+(1, 3, 2, 10.00, 20.00),
+(2, 1, 1, 90.00, 90.00),
+(2, 2, 2, 40.00, 80.00),
+(2, 3, 2, 10.00, 20.00),
+(3, 1, 1, 90.00, 90.00),
+(3, 2, 2, 40.00, 80.00),
+(3, 3, 2, 10.00, 20.00),
+(3, 4, 2, 5.50, 11.00);
+
+select * from PRODUTO where COD_PRODUTO = 3;
+
+-- Update, atualizando dados de colunas em tabelas
+update PRODUTO
+set VL_PRODUTO = 15, DESC_PRODUTO = 'ProdutoAtualizado', UN_MED = 'CX'
+where COD_PRODUTO =3;
+
+-- Delete, excluindo registros de tabelas
+delete from PRODUTO
+where COD_PRODUTO = 3;
+-- Neste caso, uma exceção será lançada
+-- Violação da contraint que amarra o produto ao item da nota fiscal, não é possível excluir uma PKs que tem dependência em FKs
+
+insert into PRODUTO (DESC_PRODUTO, UN_MED, VL_PRODUTO) values
+('Produto4', 'UN', 5.50);
+
+insert into ITEM_NOTA_FISCAL (NRO_NOTA, COD_PRODUTO, QTD_PRODUTO, VL_PRECO, VL_TOTAL) values
+(3, 4, 2, 5.50, 11.00);
+
+delete from PRODUTO where COD_PRODUTO = 4;
