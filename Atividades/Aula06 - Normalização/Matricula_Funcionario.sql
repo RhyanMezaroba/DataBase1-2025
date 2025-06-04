@@ -1,7 +1,7 @@
 create database FORMULARIO;
 use FORMULARIO;
 
-CREATE TABLE ENDERECO (
+CREATE TABLE ENDERECO ( 
 	ID int not null auto_increment primary key,
 	LOGRADOURO varchar(100) not null,
 	NUMERO varchar(10),
