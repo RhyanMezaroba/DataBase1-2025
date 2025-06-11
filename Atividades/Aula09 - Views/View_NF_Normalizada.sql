@@ -1,0 +1,24 @@
+create or replace view SALESRESUME as 
+select NF.NM_CLIENTE as NOME_CLIENTE,
+	count(NF.NRO_NOTA) as TOTAL_NOTAS,
+	count(INF.COD_PRODUTO) as TOTAL_ITENS,
+    sum(INF.QTD_PRODUTO) as QTD_TOTAL,
+    sum(INF.VL_TOTAL) as VL_TOTAL,
+    max(P.VL_PRODUTO) as MAX_VL_PRODUTO,
+    min(P.VL_PRODUTO) as MIN_VL_PRODUTO
+from 
+	NOTA_FISCAL as NF
+		inner join ITEM_NOTA_FISCAL as INF
+			on NF.NRO_NOTA = INF.NRO_NOTA
+		inner join PRODUTO as P
+			on INF.COD_PRODUTO = P.COD_PRODUTO
+group by
+	NM_CLIENTE;
+    
+select * from SALESRESUME;
+
+select
+	NOME_CLIENTE, TOTAL_NOTAS, VL_TOTAL
+FROM
+	SALESLRESUME
+where VL_TOTAL > 500;
