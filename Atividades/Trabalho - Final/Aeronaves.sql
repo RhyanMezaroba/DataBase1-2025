@@ -266,6 +266,8 @@ SELECT @idReserva4, @mensagemErro4;
 SELECT FN_CalculaDuracaoVoo(1) AS DuracaoVoo1Minutos;
 SELECT FN_CalculaDuracaoVoo(2) AS DuracaoVoo2Minutos;
 
+SELECT * FROM CLIENTE;
+
 SELECT * FROM VW_VoosDisponiveis;
 SELECT ID_VOO, Aeroporto_Origem, Cidade_Destino, HORARIO_SAIDA, Poltronas_Disponiveis FROM VW_VoosDisponiveis WHERE Poltronas_Disponiveis > 0;
 
