@@ -76,6 +76,14 @@ CREATE TABLE RESERVA (
     FOREIGN KEY (ID_VOO_POLTRONA) REFERENCES VOO_POLTRONA(ID)
 );
 
+CREATE TABLE LOG_CANCELAMENTOS (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    ID_RESERVA INT NOT NULL,
+    DATA_HORA_CANCELAMENTO DATETIME NOT NULL,
+    MOTIVO VARCHAR(255),
+    FOREIGN KEY (ID_RESERVA) REFERENCES RESERVA(ID)
+);
+
 DELIMITER $$
 
 CREATE TRIGGER TRG_AtualizaStatusPoltronaReserva
@@ -168,6 +176,91 @@ INNER JOIN
     AEROPORTO AER_D ON V.ID_DESTINO = AER_D.ID
 INNER JOIN
     AERONAVE AERO ON V.ID_AERONAVE = AERO.ID;
+
+DELIMITER $$
+
+CREATE TRIGGER TRG_LogCancelamentoReserva
+AFTER UPDATE ON RESERVA
+FOR EACH ROW
+BEGIN
+    IF OLD.STATUS_RESERVA != 'CANCELADA' AND NEW.STATUS_RESERVA = 'CANCELADA' THEN
+        INSERT INTO LOG_CANCELAMENTOS (ID_RESERVA, DATA_HORA_CANCELAMENTO, MOTIVO)
+        VALUES (NEW.ID, NOW(), 'Cancelamento feito pelo usuário ou sistema.');
+    END IF;
+END$$
+
+CREATE PROCEDURE SP_CancelarReserva(
+    IN p_ID_RESERVA INT,
+    OUT p_MENSAGEM VARCHAR(255)
+)
+BEGIN
+    DECLARE v_status_atual VARCHAR(50);
+
+    SELECT STATUS_RESERVA INTO v_status_atual
+    FROM RESERVA
+    WHERE ID = p_ID_RESERVA;
+
+    IF v_status_atual IS NULL THEN
+        SET p_MENSAGEM = 'Reserva não encontrada.';
+    ELSEIF v_status_atual = 'CANCELADA' THEN
+        SET p_MENSAGEM = 'A reserva já estava cancelada.';
+    ELSE
+        UPDATE RESERVA
+        SET STATUS_RESERVA = 'CANCELADA'
+        WHERE ID = p_ID_RESERVA;
+
+        SET p_MENSAGEM = 'Reserva cancelada com sucesso.';
+    END IF;
+END$$
+
+CREATE FUNCTION FN_QuantidadeReservasCliente(p_ID_CLIENTE INT)
+RETURNS INT
+READS SQL DATA
+BEGIN
+    DECLARE total_reservas INT;
+
+    SELECT COUNT(*) INTO total_reservas
+    FROM RESERVA
+    WHERE ID_CLIENTE = p_ID_CLIENTE;
+
+    RETURN total_reservas;
+END$$
+
+DELIMITER ;
+
+-- Frequência de Clientes
+-- Fazendo o cliente 1 ter 3 reservas
+CALL SP_RealizaReserva(1, 1, @id1, @msg1);
+CALL SP_RealizaReserva(1, 2, @id2, @msg2);
+CALL SP_RealizaReserva(1, 3, @id3, @msg3);
+
+-- Cliente 2 com 2 reservas
+CALL SP_RealizaReserva(2, 4, @id4, @msg4);
+CALL SP_RealizaReserva(2, 5, @id5, @msg5);
+
+-- Cliente 3 com 1 reserva (não deve aparecer na View)
+CALL SP_RealizaReserva(3, 6, @id6, @msg6);
+
+-- Cliente 4 com 2 reservas
+CALL SP_RealizaReserva(4, 7, @id7, @msg7);
+CALL SP_RealizaReserva(4, 8, @id8, @msg8);
+
+-- Cliente 5 sem nenhuma reserva (não vai aparecer)
+
+CREATE VIEW VW_ClientesFrequentes AS
+SELECT
+    C.ID AS ID_CLIENTE,
+    C.NOME,
+    COUNT(R.ID) AS Total_Reservas
+FROM
+    CLIENTE C
+INNER JOIN
+    RESERVA R ON C.ID = R.ID_CLIENTE
+GROUP BY
+    C.ID, C.NOME
+HAVING
+    COUNT(R.ID) > 1;
+
 
 USE TRANSPORTE_AEREO;
 
@@ -271,5 +364,6 @@ SELECT * FROM CLIENTE;
 SELECT * FROM VW_VoosDisponiveis;
 SELECT ID_VOO, Aeroporto_Origem, Cidade_Destino, HORARIO_SAIDA, Poltronas_Disponiveis FROM VW_VoosDisponiveis WHERE Poltronas_Disponiveis > 0;
 
--- UPDATE RESERVA SET STATUS_RESERVA = 'CANCELADA' WHERE ID = @idReserva1;
--- SELECT STATUS FROM VOO_POLTRONA WHERE ID = 1;
+UPDATE RESERVA SET STATUS_RESERVA = 'CANCELADA' WHERE ID = @idReserva1;
+
+SELECT STATUS FROM VOO_POLTRONA WHERE ID = 1;
